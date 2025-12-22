@@ -11,24 +11,28 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: #000;
   color: #fff;
-  min-height: 100dvh;
+  height: 100vh;
   overflow: hidden;
 }
 
 .hidden {
-  display: none !important;
+  display: none;
 }
 
 /* =========================
-   APP CONTAINER
+   APP CONTAINER & STATES
 ========================= */
 .app {
-  min-height: 100dvh;
+  position: relative;
+  height: 100vh;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: background 0.4s ease;
 }
 
-/* Color themes */
+/* Round / Rest / Done color themes */
 .app.round {
   background: radial-gradient(circle at top, #8b0000, #300000);
 }
@@ -45,25 +49,19 @@ body {
    SETTINGS (START SCREEN)
 ========================= */
 .settings {
-  min-height: 100dvh;
-  padding: 30px 20px 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 22px;
-  overflow-y: auto;
+  width: 90%;
+  max-width: 360px;
+  text-align: center;
 }
 
 .title {
+  margin-bottom: 28px;
   font-size: 2rem;
   letter-spacing: 1px;
-  margin-bottom: 10px;
 }
 
 .field-group {
-  width: 100%;
-  max-width: 340px;
+  margin-bottom: 22px;
 }
 
 .caption {
@@ -72,7 +70,6 @@ body {
   font-size: 0.8rem;
   letter-spacing: 1px;
   opacity: 0.75;
-  text-align: center;
 }
 
 .row {
@@ -91,29 +88,20 @@ select {
   background: #f2f2f2;
   color: #000;
   min-width: 80px;
-  width: 100%;
 }
 
-/* START BUTTON */
+/* START BUTTON ROW */
 .start-row {
-  width: 100%;
+  margin-top: 30px;
   display: flex;
   justify-content: center;
-  margin-top: 10px;
-}
-
-.start-btn {
-  width: 85%;
-  max-width: 300px;
-  padding: 18px;
-  font-size: 1.3rem;
-  font-weight: 700;
 }
 
 /* =========================
    BUTTON SYSTEM
 ========================= */
 button {
+  appearance: none;
   border: none;
   border-radius: 14px;
   padding: 16px 26px;
@@ -126,18 +114,30 @@ button {
   box-shadow:
     0 6px 12px rgba(0,0,0,0.4),
     inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 button:active {
   transform: translateY(2px);
+  box-shadow:
+    0 3px 6px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.2);
 }
 
-/* PAUSE */
+/* START button emphasis */
+.start-btn {
+  width: 85%;
+  max-width: 300px;
+  font-size: 1.3rem;
+  padding: 18px;
+}
+
+/* PAUSE button */
 #pauseBtn {
   background: linear-gradient(180deg, #ffaa00, #cc7a00);
 }
 
-/* END */
+/* END button */
 button.danger {
   background: linear-gradient(180deg, #666, #222);
 }
@@ -146,11 +146,6 @@ button.danger {
    PRE-START COUNTDOWN
 ========================= */
 .countdown {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   text-align: center;
   padding: 20px;
 }
@@ -170,12 +165,7 @@ button.danger {
    TIMER VIEW
 ========================= */
 .timer {
-  min-height: 100dvh;
-  padding: 30px 20px env(safe-area-inset-bottom, 20px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
+  width: 100%;
   text-align: center;
 }
 
@@ -188,40 +178,61 @@ button.danger {
 #time {
   font-size: 5rem;
   font-weight: 800;
-  margin: 20px 0;
+  margin: 20px 0 30px;
 }
 
 /* =========================
-   PROGRESS BAR
+   PULSE ANIMATION
+========================= */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.pulse {
+  animation: pulse 0.8s ease-in-out infinite;
+}
+
+/* =========================
+   PROGRESS BAR (VISIBLE)
 ========================= */
 .bar {
   width: 85%;
   height: 18px;
+  margin: 0 auto;
   background: rgba(255,255,255,0.15);
   border-radius: 12px;
   overflow: hidden;
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,0.4);
 }
 
 #bar {
   height: 100%;
   width: 100%;
-  background: linear-gradient(90deg, #fff, #eee);
+  border-radius: 12px;
+  background: linear-gradient(90deg, #ffffff, #f1f1f1);
+  box-shadow:
+    0 0 8px rgba(255,255,255,0.6),
+    inset 0 0 4px rgba(255,255,255,0.6);
   transition: width 1s linear;
-}
-
-/* Warning & danger */
-.bar.warning #bar {
-  background: linear-gradient(90deg, #ffcc00, #ff9900);
-}
-
-.bar.danger #bar {
-  background: linear-gradient(90deg, #ff3333, #b30000);
 }
 
 /* =========================
    CIRCULAR PROGRESS
 ========================= */
 .circle {
+  margin: 0 auto;
   transform: rotate(-90deg);
 }
 
@@ -237,33 +248,49 @@ circle {
   stroke-dashoffset: 0;
   transition: stroke-dashoffset 1s linear;
 }
+/* Near-zero warning colors */
+.bar.warning #bar {
+  background: linear-gradient(90deg, #ffcc00, #ff9900);
+  box-shadow:
+    0 0 10px rgba(255,200,0,0.8),
+    inset 0 0 4px rgba(255,255,255,0.5);
+}
 
+.bar.danger #bar {
+  background: linear-gradient(90deg, #ff3333, #b30000);
+  box-shadow:
+    0 0 12px rgba(255,50,50,0.9),
+    inset 0 0 4px rgba(255,255,255,0.6);
+}
+
+/* Circle color shift */
 .circle.warning #circle {
   stroke: #ffcc00;
+  filter: drop-shadow(0 0 6px rgba(255,200,0,0.8));
 }
 
 .circle.danger #circle {
   stroke: #ff3333;
+  filter: drop-shadow(0 0 8px rgba(255,50,50,0.9));
 }
 
 /* =========================
-   CONTROLS
+   TIMER CONTROLS (BOTTOM)
 ========================= */
 .controls {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
   display: flex;
-  gap: 20px;
   justify-content: center;
+  gap: 20px;
 }
 
 /* =========================
    FINISH SCREEN
 ========================= */
 .finish {
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   text-align: center;
 }
 
@@ -273,23 +300,14 @@ circle {
 }
 
 /* =========================
-   PULSE
-========================= */
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.03); opacity: 0.85; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-.pulse {
-  animation: pulse 0.8s ease-in-out infinite;
-}
-
-/* =========================
-   SMALL DEVICES
+   SMALL SCREEN TWEAKS
 ========================= */
 @media (max-width: 380px) {
   #time {
     font-size: 4.2rem;
+  }
+
+  .countdown h2 {
+    font-size: 5rem;
   }
 }
