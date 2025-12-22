@@ -15,7 +15,7 @@
   <h1 class="title">SPARRING TIMER</h1>
 
   <div class="field-group">
-    <label class="caption">SET ROUND TIME</label>
+    <label class="caption">KIERROSAIKA</label>
     <div class="row">
       <select id="roundMin"></select>
       <span>:</span>
@@ -24,7 +24,7 @@
   </div>
 
   <div class="field-group">
-    <label class="caption">SET REST TIME</label>
+    <label class="caption">LEPOAIKA</label>
     <div class="row">
       <select id="restMin"></select>
       <span>:</span>
@@ -33,28 +33,28 @@
   </div>
 
   <div class="field-group">
-    <label class="caption">HOW MANY ROUNDS</label>
+    <label class="caption">MONTAKO ERÄÄ</label>
     <select id="rounds"></select>
   </div>
 
   <div class="field-group">
-    <label class="caption">PROGRESS STYLE</label>
+    <label class="caption">YMPYRÄ/PALKKI</label>
     <select id="progressType">
-      <option value="bar">Progress Bar</option>
-      <option value="circle">Progress Circle</option>
+      <option value="bar">Progressio palkki</option>
+      <option value="circle">Progressio ympyrä</option>
     </select>
   </div>
 
   <div class="field-group">
-   <label class="caption">PULSE WARNING</label>
+   <label class="caption">Pulssijuttu</label>
    <select id="pulseEnabled">
-    <option value="on">Enabled</option>
-    <option value="off">Disabled</option>
+    <option value="on">Päällä</option>
+    <option value="off">Pois päältä</option>
    </select>
   </div>
 
 <div class="field-group">
-  <label class="caption">PULSE STARTS AT (SECONDS)</label>
+  <label class="caption">Montako viimeistä sekuntia vilkuttaa</label>
   <select id="pulseStart"></select>
 </div>
 
@@ -65,7 +65,7 @@
 
   <!-- COUNTDOWN -->
   <section class="countdown hidden" id="countdown">
-    <p>TRAINING SESSION IS ABOUT TO START</p>
+    <p>Treenisessio on alkamassa</p>
     <h2 id="countNum">5</h2>
   </section>
 
@@ -85,14 +85,14 @@
 
     <div class="controls">
       <button onclick="togglePause()" id="pauseBtn">PAUSE</button>
-      <button onclick="endSession()">END</button>
+      <button onclick="endSession()">LOPETA</button>
     </div>
   </section>
 
   <!-- FINISH -->
   <section class="finish hidden" id="finish">
-    <h2>SESSION COMPLETE</h2>
-    <button onclick="resetApp()">BACK TO START</button>
+    <h2>TREENI ON OHI</h2>
+    <button onclick="resetApp()">TAKASI ALKUUN</button>
   </section>
 
 </div>
@@ -100,3 +100,4 @@
 <script src="script.js"></script>
 </body>
 </html>
+
