@@ -1,0 +1,313 @@
+/* =========================
+   RESET & BASE
+========================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #000;
+  color: #fff;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none;
+}
+
+/* =========================
+   APP CONTAINER & STATES
+========================= */
+.app {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.4s ease;
+}
+
+/* Round / Rest / Done color themes */
+.app.round {
+  background: radial-gradient(circle at top, #8b0000, #300000);
+}
+
+.app.rest {
+  background: radial-gradient(circle at top, #004d80, #001f33);
+}
+
+.app.done {
+  background: radial-gradient(circle at top, #1e7f43, #0b3d24);
+}
+
+/* =========================
+   SETTINGS (START SCREEN)
+========================= */
+.settings {
+  width: 90%;
+  max-width: 360px;
+  text-align: center;
+}
+
+.title {
+  margin-bottom: 28px;
+  font-size: 2rem;
+  letter-spacing: 1px;
+}
+
+.field-group {
+  margin-bottom: 22px;
+}
+
+.caption {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  opacity: 0.75;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+select {
+  appearance: none;
+  padding: 14px;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  border: none;
+  background: #f2f2f2;
+  color: #000;
+  min-width: 80px;
+}
+
+/* START BUTTON ROW */
+.start-row {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+/* =========================
+   BUTTON SYSTEM
+========================= */
+button {
+  appearance: none;
+  border: none;
+  border-radius: 14px;
+  padding: 16px 26px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(180deg, #ff4d4d, #b30000);
+  box-shadow:
+    0 6px 12px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+button:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 3px 6px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+/* START button emphasis */
+.start-btn {
+  width: 85%;
+  max-width: 300px;
+  font-size: 1.3rem;
+  padding: 18px;
+}
+
+/* PAUSE button */
+#pauseBtn {
+  background: linear-gradient(180deg, #ffaa00, #cc7a00);
+}
+
+/* END button */
+button.danger {
+  background: linear-gradient(180deg, #666, #222);
+}
+
+/* =========================
+   PRE-START COUNTDOWN
+========================= */
+.countdown {
+  text-align: center;
+  padding: 20px;
+}
+
+.countdown p {
+  font-size: 1.3rem;
+  opacity: 0.85;
+  margin-bottom: 20px;
+}
+
+.countdown h2 {
+  font-size: 6rem;
+  font-weight: 800;
+}
+
+/* =========================
+   TIMER VIEW
+========================= */
+.timer {
+  width: 100%;
+  text-align: center;
+}
+
+#status {
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+#time {
+  font-size: 5rem;
+  font-weight: 800;
+  margin: 20px 0 30px;
+}
+
+/* =========================
+   PULSE ANIMATION
+========================= */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.pulse {
+  animation: pulse 0.8s ease-in-out infinite;
+}
+
+/* =========================
+   PROGRESS BAR (VISIBLE)
+========================= */
+.bar {
+  width: 85%;
+  height: 18px;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,0.4);
+}
+
+#bar {
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #ffffff, #f1f1f1);
+  box-shadow:
+    0 0 8px rgba(255,255,255,0.6),
+    inset 0 0 4px rgba(255,255,255,0.6);
+  transition: width 1s linear;
+}
+
+/* =========================
+   CIRCULAR PROGRESS
+========================= */
+.circle {
+  margin: 0 auto;
+  transform: rotate(-90deg);
+}
+
+circle {
+  fill: none;
+  stroke-width: 12;
+  stroke: rgba(255,255,255,0.2);
+}
+
+#circle {
+  stroke: #fff;
+  stroke-dasharray: 565;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear;
+}
+/* Near-zero warning colors */
+.bar.warning #bar {
+  background: linear-gradient(90deg, #ffcc00, #ff9900);
+  box-shadow:
+    0 0 10px rgba(255,200,0,0.8),
+    inset 0 0 4px rgba(255,255,255,0.5);
+}
+
+.bar.danger #bar {
+  background: linear-gradient(90deg, #ff3333, #b30000);
+  box-shadow:
+    0 0 12px rgba(255,50,50,0.9),
+    inset 0 0 4px rgba(255,255,255,0.6);
+}
+
+/* Circle color shift */
+.circle.warning #circle {
+  stroke: #ffcc00;
+  filter: drop-shadow(0 0 6px rgba(255,200,0,0.8));
+}
+
+.circle.danger #circle {
+  stroke: #ff3333;
+  filter: drop-shadow(0 0 8px rgba(255,50,50,0.9));
+}
+
+/* =========================
+   TIMER CONTROLS (BOTTOM)
+========================= */
+.controls {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* =========================
+   FINISH SCREEN
+========================= */
+.finish {
+  text-align: center;
+}
+
+.finish h2 {
+  font-size: 2rem;
+  margin-bottom: 25px;
+}
+
+/* =========================
+   SMALL SCREEN TWEAKS
+========================= */
+@media (max-width: 380px) {
+  #time {
+    font-size: 4.2rem;
+  }
+
+  .countdown h2 {
+    font-size: 5rem;
+  }
+}
