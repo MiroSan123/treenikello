@@ -87,7 +87,7 @@ function startRound() {
 function startRest() {
   isRest = true;
   app.className = "app rest";
-  statusEl.textContent = "REST";
+  statusEl.textContent = "LEPO";
   startTimer(restTime);
 }
 
@@ -176,3 +176,4 @@ function resetApp() {
   timerView.classList.add("hidden");
   app.className = "app round";
 }
+
