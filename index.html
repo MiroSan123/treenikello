@@ -12,56 +12,56 @@
 
   <!-- SETTINGS -->
   <section class="settings" id="settings">
-  <h1 class="title">SPARRING TIMER</h1>
+    <h1 class="title">SPARRING TIMER</h1>
 
-  <div class="field-group">
-    <label class="caption">KIERROSAIKA</label>
-    <div class="row">
-      <select id="roundMin"></select>
-      <span>:</span>
-      <select id="roundSec"></select>
+    <div class="field-group">
+      <label class="caption">KIERROSAIKA</label>
+      <div class="row">
+        <select id="roundMin"></select>
+        <span>:</span>
+        <select id="roundSec"></select>
+      </div>
     </div>
-  </div>
 
-  <div class="field-group">
-    <label class="caption">LEPOAIKA</label>
-    <div class="row">
-      <select id="restMin"></select>
-      <span>:</span>
-      <select id="restSec"></select>
+    <div class="field-group">
+      <label class="caption">LEPOAIKA</label>
+      <div class="row">
+        <select id="restMin"></select>
+        <span>:</span>
+        <select id="restSec"></select>
+      </div>
     </div>
-  </div>
 
-  <div class="field-group">
-    <label class="caption">MONTAKO ERÄÄ</label>
-    <select id="rounds"></select>
-  </div>
+    <div class="field-group">
+      <label class="caption">MONTAKO ERÄÄ</label>
+      <select id="rounds"></select>
+    </div>
 
-  <div class="field-group">
-    <label class="caption">YMPYRÄ/PALKKI</label>
-    <select id="progressType">
-      <option value="bar">Progressio palkki</option>
-      <option value="circle">Progressio ympyrä</option>
-    </select>
-  </div>
+    <div class="field-group">
+      <label class="caption">YMPYRÄ / PALKKI</label>
+      <select id="progressType">
+        <option value="bar">Progressio palkki</option>
+        <option value="circle">Progressio ympyrä</option>
+      </select>
+    </div>
 
-  <div class="field-group">
-   <label class="caption">Pulssijuttu</label>
-   <select id="pulseEnabled">
-    <option value="on">Päällä</option>
-    <option value="off">Pois päältä</option>
-   </select>
-  </div>
+    <div class="field-group">
+      <label class="caption">Pulssijuttu</label>
+      <select id="pulseEnabled">
+        <option value="on">Päällä</option>
+        <option value="off">Pois päältä</option>
+      </select>
+    </div>
 
-<div class="field-group">
-  <label class="caption">Montako viimeistä sekuntia vilkuttaa</label>
-  <select id="pulseStart"></select>
-</div>
+    <div class="field-group">
+      <label class="caption">Montako viimeistä sekuntia vilkuttaa</label>
+      <select id="pulseStart"></select>
+    </div>
 
-  <div class="start-row">
-    <button class="start-btn" onclick="prepareStart()">START</button>
-  </div>
-</section>
+    <div class="start-row">
+      <button class="start-btn" onclick="prepareStart()">START</button>
+    </div>
+  </section>
 
   <!-- COUNTDOWN -->
   <section class="countdown hidden" id="countdown">
@@ -97,7 +97,13 @@
 
 </div>
 
+<!-- SOUND EFFECTS -->
+<audio id="beep" src="beep.mp3" preload="auto"></audio>
+<audio id="beepFinal" src="beep-final.mp3" preload="auto"></audio>
+<audio id="ding" src="ding.mp3" preload="auto"></audio>
+<audio id="startSound" src="start.mp3" preload="auto"></audio>
+<audio id="cheer" src="cheer.mp3" preload="auto"></audio>
+
 <script src="script.js"></script>
 </body>
 </html>
-
