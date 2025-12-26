@@ -14,6 +14,22 @@ const bar = document.getElementById("bar");
 const circleWrap = document.getElementById("circleWrap");
 const circle = document.getElementById("circle");
 
+/* =========================
+   SOUNDS
+========================= */
+const beep = document.getElementById("beep");
+const beepFinal = document.getElementById("beepFinal");
+const ding = document.getElementById("ding");
+const cheer = document.getElementById("cheer");
+
+function playSound(a) {
+  a.currentTime = 0;
+  a.play().catch(() => {});
+}
+
+/* =========================
+   STATE
+========================= */
 let roundTime, restTime, totalRounds;
 let currentRound = 1;
 let remaining, total;
@@ -25,7 +41,9 @@ let progressType = "bar";
 let pulseEnabled = true;
 let pulseStartAt = 5;
 
-/* Populate selects */
+/* =========================
+   POPULATE SELECTS
+========================= */
 function fill(id, max) {
   const s = document.getElementById(id);
   for (let i = 0; i <= max; i++) {
@@ -39,19 +57,20 @@ fill("roundMin",10); fill("roundSec",59);
 fill("restMin",10); fill("restSec",59);
 
 const roundsSel = document.getElementById("rounds");
-for (let i=1;i<=20;i++) {
-  roundsSel.append(new Option(i,i));
-}
-roundMin.value = 3;
+for (let i=1;i<=20;i++) roundsSel.append(new Option(i,i));
+roundMin.value = 3;	//Default round minutes
+roundSec.value = 0;	//default round seconds
+restMin.value = 0;	//Default rest mintues
+restSec.value = 30;	//Default rest seconds
+roundsSel.value = 5;	//Default total rounds
 
-// Pulse start selector (3–10 seconds)
 const pulseStartSel = document.getElementById("pulseStart");
-for (let i = 3; i <= 10; i++) {
-  pulseStartSel.append(new Option(i + " sec", i));
-}
+for (let i=3;i<=10;i++) pulseStartSel.append(new Option(i+" sec",i));
 pulseStartSel.value = 5;
 
-/* START FLOW */
+/* =========================
+   SESSION START COUNTDOWN
+========================= */
 function prepareStart() {
   roundTime = +roundMin.value*60 + +roundSec.value;
   restTime = +restMin.value*60 + +restSec.value;
@@ -69,7 +88,11 @@ function prepareStart() {
   const cd = setInterval(() => {
     c--;
     countNum.textContent = c;
+
+    if (c === 2 || c === 1) playSound(beep);
+
     if (c === 0) {
+      playSound(beepFinal);   // EXACT start moment
       clearInterval(cd);
       countdown.classList.add("hidden");
       startRound();
@@ -77,6 +100,9 @@ function prepareStart() {
   },1000);
 }
 
+/* =========================
+   ROUND / REST
+========================= */
 function startRound() {
   isRest = false;
   app.className = "app round";
@@ -85,12 +111,16 @@ function startRound() {
 }
 
 function startRest() {
+  playSound(ding); // round end bell
   isRest = true;
   app.className = "app rest";
   statusEl.textContent = "LEPO";
   startTimer(restTime);
 }
 
+/* =========================
+   TIMER CORE
+========================= */
 function startTimer(seconds) {
   clearInterval(timer);
   remaining = total = seconds;
@@ -109,29 +139,45 @@ function tick() {
   if (paused) return;
 
   remaining--;
+
+  // 🔊 REST → ROUND SOUND-ONLY COUNTDOWN
+  if (isRest) {
+    if (remaining === 2 || remaining === 1) playSound(beep);
+    if (remaining === 0) playSound(beepFinal);
+  }
+
   updateUI();
 
   if (remaining <= 0) {
     clearInterval(timer);
-    if (!isRest && currentRound < totalRounds) startRest();
-    else if (isRest) { currentRound++; startRound(); }
-    else finish();
+
+    if (!isRest && currentRound < totalRounds) {
+      startRest();
+    }
+    else if (isRest) {
+      currentRound++;
+      startRound();
+    }
+    else {
+      finish();
+    }
   }
 }
 
+/* =========================
+   UI UPDATE (UNCHANGED)
+========================= */
 function updateUI() {
-  const m = Math.floor(remaining / 60);
-  const s = remaining % 60;
+  const m = Math.floor(remaining/60);
+  const s = remaining%60;
   timeEl.textContent = `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
 
-  const p = remaining / total;
+  const p = remaining/total;
 
-  /* Reset states */
-  barWrap.classList.remove("warning", "danger", "pulse");
-  circleWrap.classList.remove("warning", "danger", "pulse");
+  barWrap.classList.remove("warning","danger","pulse");
+  circleWrap.classList.remove("warning","danger","pulse");
   timeEl.classList.remove("pulse");
 
-  /* Color shift thresholds */
   if (remaining <= 3) {
     barWrap.classList.add("danger");
     circleWrap.classList.add("danger");
@@ -140,18 +186,19 @@ function updateUI() {
     circleWrap.classList.add("warning");
   }
 
-  /* Pulse logic */
   if (pulseEnabled && remaining <= pulseStartAt) {
     timeEl.classList.add("pulse");
-    if (progressType === "bar") barWrap.classList.add("pulse");
-    if (progressType === "circle") circleWrap.classList.add("pulse");
+    if (progressType==="bar") barWrap.classList.add("pulse");
+    if (progressType==="circle") circleWrap.classList.add("pulse");
   }
 
-  /* Progress visuals */
-  bar.style.width = (p * 100) + "%";
-  circle.style.strokeDashoffset = 565 * (1 - p);
+  bar.style.width = (p*100)+"%";
+  circle.style.strokeDashoffset = 565*(1-p);
 }
 
+/* =========================
+   CONTROLS
+========================= */
 function togglePause() {
   paused = !paused;
   pauseBtn.textContent = paused ? "RESUME" : "PAUSE";
@@ -163,6 +210,7 @@ function endSession() {
 }
 
 function finish() {
+  playSound(cheer);
   timerView.classList.add("hidden");
   finishView.classList.remove("hidden");
   app.className = "app done";
@@ -176,4 +224,3 @@ function resetApp() {
   timerView.classList.add("hidden");
   app.className = "app round";
 }
-
